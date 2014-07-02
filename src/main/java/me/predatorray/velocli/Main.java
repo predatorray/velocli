@@ -3,10 +3,12 @@ package me.predatorray.velocli;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
 import java.io.*;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
 
 public class Main {
 
@@ -39,11 +41,19 @@ public class Main {
             properties.load(propertiesInput);
 
             Template t = ve.getTemplate(templateFile);
+
             VelocityContext context = new VelocityContext();
             Enumeration<?> propertyNames = properties.propertyNames();
             while (propertyNames.hasMoreElements()) {
                 String propertyName = propertyNames.nextElement().toString();
-                context.put(propertyName, properties.getProperty(propertyName));
+                String propertyValue = properties.getProperty(propertyName);
+                String[] values = StringUtils.arraySplit(propertyValue, ',',
+                        true);
+                if (values.length == 1) {
+                    context.put(propertyName, values[0]);
+                } else {
+                    context.put(propertyName, values);
+                }
             }
 
             Writer writer = new PrintWriter(System.out);

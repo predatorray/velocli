@@ -1,0 +1,38 @@
+#!/bin/bash
+
+DIR=`dirname $0`
+
+usage() {
+    echo "Usage:"
+    echo "$0 --template VELOCITY_TEMPLATE [--properties PROPERTIES]"
+}
+
+while [ "$1" != "" ]; do
+    case "$1" in
+        --help)
+            usage
+            exit 0
+            ;;
+        -t|--template)
+            TEMPLATE=$2
+            shift 2
+            ;;
+        -p|--properties)
+            PROP=$2
+            shift 2
+            ;;
+        *)
+            echo "Invalid arguments $1."
+            usage
+            exit 1
+            ;;
+    esac
+done
+
+if [ -z "$TEMPLATE" ]; then
+    echo "VELOCITY_TEMPLATE is required." >& 2
+    usage
+    exit 1
+fi
+
+java -jar $DIR/../lib/velocli-jar-with-dependencies.jar $TEMPLATE $PROP
