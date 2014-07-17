@@ -4,10 +4,10 @@ DIR=`dirname $0`
 
 usage() {
     echo "Usage:"
-    echo "$0 -t <VELOCITY_TEMPLATE> -f (prop|xml) -p <INPUT_PATH>"
+    echo "$0 -t <VELOCITY_TEMPLATE> -m (prop|xml) -f <INPUT_FILE>"
 }
 
-while getopts ":ht:f:p:" OPT;
+while getopts ":ht:m:f:" OPT;
 do
     case $OPT in
         h)
@@ -17,11 +17,11 @@ do
         t)
             TEMPLATE=$OPTARG
             ;;
-        f)
+        m)
             INPUT_FORMAT=$OPTARG
             ;;
-        p)
-            INPUT_PATH=$OPTARG
+        f)
+            INPUT_FILE=$OPTARG
             ;;
         ?)
             usage
@@ -44,8 +44,8 @@ if [ -z "$INPUT_FORMAT" ]; then
     exit 1
 fi
 
-if [ -z "$INPUT_PATH" ]; then
-    INPUT_PATH="-"
+if [ -z "$INPUT_FILE" ]; then
+    INPUT_FILE="-"
 fi
 
-java -jar $DIR/../lib/velocli-jar-with-dependencies.jar $TEMPLATE $INPUT_FORMAT $INPUT_PATH
+java -jar $DIR/../lib/velocli-jar-with-dependencies.jar $TEMPLATE $INPUT_FORMAT $INPUT_FILE

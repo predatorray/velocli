@@ -4,6 +4,7 @@ import me.predatorray.velocli.util.SQLUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.tools.generic.EscapeTool;
 
 import java.io.*;
 import java.util.*;
@@ -70,6 +71,9 @@ public class Main {
         }
         Context ctx = new Context(keySet);
         context.put("context", ctx);
+
+        // Escape Tool
+        context.put("esc", new EscapeTool());
 
         // SQLUtils
         context.put("SQLUtils", new SQLUtils());
